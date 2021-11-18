@@ -471,39 +471,3 @@ values (4,4);
 insert into relationship_7 (id_profesional,id_tratamiento)
 values (5,5);
 
-
---Consultas
---Consultar histórico de ingresos que ha tenido cada paciente
-select nombre_paciente as Nombre,
-apellido_paciente as Apellido,
-cantidad_ingresos as CantidadIngreso,
-cantidad_servicio as CantidadServicios
-from servicio
-inner join paciente on servicio.id_paciente=paciente.id_paciente
-inner join ingreso on paciente.id_paciente = ingreso.id_paciente
-
---Consultar el histórico de atenciones por personal que existe en la institución.
-select nombre_profesional as NombreDoctor,
-cantidad_tratamientos as CantidadTratamientos,
-nombre_paciente as NombrePaciente
-from tratamiento
-inner join paciente on tratamiento.id_paciente=paciente.id_paciente
-inner join profesional on paciente.id_profesional=profesional.id_profesional
---Por año el número de ingresos y salidas correctas y escapes que se dan.
-select
-extract(year from fecha_ingreso) as año,
-sum (cantidad_ingresos) as total_ingresos,
-sum (cantidadsalidas_correctas) as total_salidas_correctas,
-sum (cantidadsalidas_incorrectas) as total_salidas_incorrectas
-from ingreso
-join paciente on ingreso.id_paciente=paciente.id_paciente
-where extract(year from fecha_ingreso) >= '2020' and extract(year from fecha_ingreso) <= '2021'
-group by extract(year from fecha_ingreso);
-
---Cuarta Consulta
-select
-cast(patologia.tipo_patologia as varchar(50)) as patologia,
-count(patologia.tipo_patologia) as cantidad
-from paciente
-inner join patologia on paciente.id_paciente = patologia.id_paciente
-group by patologia;
