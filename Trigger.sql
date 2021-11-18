@@ -26,4 +26,4 @@ execute procedure tg_incidente();
 insert into ingreso (id_ingreso,id_paciente,fecha_ingreso,fecha_salida,
 					 fecha_ceremoniadesalida,cantidad_ingresos,cantidadsalidas_correctas,
 					 cantidadsalidas_incorrectas,incidente_violento)
-values (6,4,'2020-10-05','2021-01-01','2021-01-15',2,1,1,2);
+values (7,4,'2020-10-05','2021-01-01','2021-01-15',2,1,1,2);
