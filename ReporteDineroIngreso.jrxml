@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteDineroIngreso" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ec640075-ef8c-4941-8d89-654c194fb01e">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select
+cast(extract (year from ingreso.fecha_salida) as varchar(10)) as Año,
+cast(sum(plan.precio_plan) as numeric) as DineroTotal
+from pago
+inner join plan on pago.id_plan=plan.id_plan
+inner join ingreso on pago.id_ingreso=ingreso.id_ingreso
+where extract(year from fecha_ingreso) >= '2019' and extract(year from fecha_ingreso) <= '2021'
+GROUP BY
+extract (year from ingreso.fecha_salida);]]>
+	</queryString>
+	<field name="año" class="java.lang.String"/>
+	<field name="dinerototal" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="34" splitType="Stretch">
+			<staticText>
+				<reportElement x="74" y="0" width="453" height="33" uuid="12a2e603-69b7-4459-a9a5-c65e948f16b1"/>
+				<textElement>
+					<font fontName="Arial" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL DE DINERO QUE INGRESA POR AÑO]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement x="97" y="2" width="100" height="20" uuid="9516ccb5-782d-411d-841e-469e1f6609e0"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Año]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="388" y="0" width="100" height="20" uuid="d57c5850-efbc-4956-9031-dcfb3d97d839"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dinero Total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="26" splitType="Stretch">
+			<textField>
+				<reportElement x="97" y="0" width="100" height="20" uuid="298b844a-0b20-495d-9673-cdd557e3e9db"/>
+				<textFieldExpression><![CDATA[$F{año}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="399" y="0" width="69" height="20" uuid="62dae3f4-f600-40fe-892c-876c558b5e29"/>
+				<textFieldExpression><![CDATA[$F{dinerototal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="388" y="0" width="11" height="20" uuid="08f08e85-e343-47d2-8eee-70a3f3af3cc0"/>
+				<text><![CDATA[$]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="18" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="142" splitType="Stretch">
+			<barChart>
+				<chart>
+					<reportElement x="97" y="10" width="360" height="132" uuid="2138707c-1d17-4e4a-999f-8a1b8551f695"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{año}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{año}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{dinerototal}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>
